@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Language Selector</title>
+    <style>
+    body {
+      text-align: center;
+      padding: 100px;
+    }
+    a {
+      cursor: pointer;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    a.selected {
+      font-weight: bold;
+    }
+    </style>
+  </head>
+  <body>
+
+    <p>Select your language:</p>
+    <div>
+      <a id="english">English</a> | <a id="french">French</a> | <a id="doggo">Doggo</a>
+    </div>
+
+    <script>
+    // Our event listener callback
+
+    let cookie_array = document.cookie.split('; ');
+    let lang = null
+    for(cookie of cookie_array){
+      if (cookie.includes("language")){
+        lang = cookie;
+      }
+    }
+    let preselected = lang.split('='); 
+    document.getElementById(`${preselected[1]}`).classList = 'selected';
+
+    const selectLanguage = (event) => {
+
+      // If there's already a bold link, unbold it (remove the 'selected' class)
+      const currentlySelected = document.querySelector('a.selected');
+      if (currentlySelected) {
+        currentlySelected.classList = '';
+      }
+
+      document.cookie = `language=${event.target.id}`;
+    
+
+
+      // Add the 'selected' class to the link so it turns bold!
+      event.target.classList = 'selected'
+    }
+
+    // Find every language and add an 'on click' event listener
+    const languages = document.querySelectorAll('a');
+    languages.forEach(language => {
+      // When a language is clicked, run the selectLanguage function
+      language.addEventListener('click', selectLanguage);
+    });
+    </script>
+  </body>
+</html>

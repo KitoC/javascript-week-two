@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+
+    <style>
+        progress[value] {
+            background-color: rgb(204, 255, 204);
+            width: 100%;
+            height: 20px;
+            -webkit-appearance: none;
+            appearance: none;
+
+        }
+
+        progress[value]::-webkit-progress-bar {
+            background-color: #eee;
+            border-radius: 2px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+        }
+
+        progress[value]::-webkit-progress-value {
+            background-image: -webkit-linear-gradient(-45deg, transparent 33%, rgba(0, 0,
+            0, .1) 33%, rgba(0, 0, 0, .1) 66%, transparent 66%), -webkit-linear-gradient(top, rgba(255, 255, 255, .25), rgba(0, 0, 0,
+            .25)), -webkit-linear-gradient(left, #09c, #f44);
+            border-radius: 2px;
+            background-size: 35px 20px, 100% 100%, 100% 100%;
+        }
+
+        .checked {
+            background: lightblue;
+        }
+        li:hover {
+            cursor: pointer;
+        }
+        form {
+            width: 100%;
+        }
+        input {
+            width: 100%;
+            height: 50px;
+            text-align: center;
+            border: 1px solid lightblue;
+        }
+        input::selection{
+ border: 1px solid lightblue;
+
+        }
+        ul{
+            padding: 0;
+        }
+        li {
+            list-style-type: none;
+            width: 100%;
+            height: 50px;
+            text-align: center;
+            padding: 10px 0;
+            margin: 10px 0;
+            font-size: 2em;
+
+        }
+        p {
+            width: 100%;
+            text-align: center;
+            font-size: 2em;
+        }
+    </style>
+</head>
+
+<body>
+    <progress value="0" max="100">0%</progress>
+    <p class="count"></p>
+    
+    <form id="todo_form">
+        <input class="todo_input">
+        <!-- <button>Add a TO-DO!</button> -->
+    </form>
+
+    <ul></ul>
+
+    <script src="jquery_todolist.js"></script>
+
+</body>
+
+</html>
