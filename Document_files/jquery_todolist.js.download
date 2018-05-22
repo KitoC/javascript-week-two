@@ -1,0 +1,58 @@
+
+
+
+
+
+let ls_array = []
+
+if (localStorage.list) {
+    ls_array = JSON.parse(localStorage.list)
+    for (item of ls_array) {
+        
+        $('ul').append(item)
+        check_li()
+    }
+    progress_bar()
+}
+
+$('.count').text($('ul li').length)
+
+$('#todo_form').on('submit', function (event) {
+    event.preventDefault()
+    $('ul').append(`<li><p class='list_item'>${$('input').val()}</p><button class = "delete">Delete me</button></li>`)
+    ls_array.push(`<li>${$('input').val()}</li>`)
+    localStorage.setItem('list', JSON.stringify(ls_array))
+    $('input').val(" ")
+    $('.count').text($('ul li').length)
+    check_li()
+})
+
+
+    $('li .delete').on('click', function () {
+      $(this).children().remove()
+    })
+
+
+
+
+
+
+function check_li() {
+    $('li').off('click').on('click', function () {
+
+        $(this).toggleClass('checked')
+        let pos = $(this).index()
+        console.log(pos)
+        ls_array[pos] = $(this)[0].outerHTML
+        localStorage.setItem('list', JSON.stringify(ls_array))
+
+        progress_bar()
+
+    })
+}
+
+function progress_bar() {
+    let progress_indicator = 0
+    progress_indicator = 100 / $('ul li').length
+    $('progress').val($('li.checked').length * progress_indicator)
+}
