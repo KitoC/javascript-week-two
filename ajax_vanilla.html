@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+    <script>
+        // Jquery version
+
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:3000/students.json',
+            data: { student: {name: 'Jim', location: 'USS Enterprise'} },
+            success: function (student, textStatus, xhr) {
+                // console.log(xhr)
+                if (xhr.status === 201) {
+                        $('body').append(`<h2>Created: ${student.name} (ID: ${student.id})</h2>`)
+                } else { // Reached server, but failed
+                    console.log(`Reached server, but error ${xhr.status} occurred .`)
+                }
+            },
+            error: function () {
+                console.log('Could not connect to server!')
+            }
+        })
+
+        $.ajax({
+            type: 'GET',
+            url: 'http://localhost:3000/students.json',
+            success: function (result, textStatus, xhr) {
+                // console.log(xhr)
+                if (xhr.status === 200) {
+                    result.forEach(function (student) {
+                        $('body').append(`<h3>${student.name} is in ${student.location}</h3>`)
+                    })
+                } else { // Reached server, but failed
+                    console.log(`Reached server, but error ${xhr.status} occurred .`)
+                }
+            },
+            error: function () {
+                console.log('Could not connect to server!')
+            }
+        })
+
+
+        // Vanilla version
+
+        // let req = new XMLHttpRequest();
+        // req.open('GET', 'https://randomuser.me/api/', true)
+        // req.onload = function (err) {
+        // if (req.status === 200) {
+        //     console.log(req.responseText)
+        // } else { // Reached server, but failed
+        //     console.log(`Reached server, but error ${req.status} occurred .`)
+        // }
+        // }
+        // req.onerror = function () {
+        //     console.log('Could not connect to server!')
+        // }
+        // req.send()
+    </script>
+</body>
+
+</html>

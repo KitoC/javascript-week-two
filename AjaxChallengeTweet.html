@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="ajaxTweeter.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+
+    <div class="twitter-feed">
+        <div class="new-tweet-form">
+            <form id="tweet-form">
+                <input class="tweet-input">
+                <button>Add a Tweet!</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        // $.ajax({
+        //     type: 'GET',
+        //     url: 'http://localhost:3000/tweets.json',
+        //     success: function (result, textSatus, xhr) {
+        //         if (xhr.status === 200) {
+
+        //             console.log('Server request successful.')
+        //             console.log(result)
+        //             for (let tweet of result) {
+        //                 $('.twitter-feed').append(
+        //                     `<div class="tweet"><b>Tweet</b><br>${tweet.message}</div>`
+        //                 )
+        //             }
+
+        //         }
+        //     },
+        //     error: function () {
+        //         console.log('Failed to reach server')
+        //     }
+
+        // })
+
+        fetch('http://localhost:3000/tweets.json').then(function (tweets) {
+            return tweets.json();
+        }).then(function (tweets) {
+            for (let tweet of tweets) {
+                $('.twitter-feed').append(`<div class="tweet"><b>Tweet</b><br>${tweet.message}<button data-id="${tweet.id}"class="delete">Delete me</button></div>`)
+                // deleteTweet()
+            }
+        })
+
+
+        $('#tweet-form').on('submit', function(event){
+            event.preventDefault()
+            console.log('Click works')
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:3000/tweets.json',
+                data: {tweet:{message: $('input').val()}},
+                success: function (tweet, textSatus, xhr){
+                    if (xhr.status === 201){
+                         $('.twitter-feed').append(`<div class="tweet"><b>Tweet</b><br>${tweet.message}<button data-id="${tweet.id}"class="delete">Delete me</button></div>`)
+                        //  deleteTweet()
+    
+                         $('input').val('')
+                    } else {
+                        console.log(`Reached server, but error ${xhr.status} occurred .`)
+                    }
+                },
+                 error: function () {
+                    console.log('Could not connect to server!')
+                }
+            })
+        })
+
+        // function deleteTweet(){
+            $('.twitter-feed').on('click', '.delete', function(event){
+                console.log($(this).data('id'))
+                $(this).parent().remove()
+                $.ajax({
+                    type: 'POST',
+                    url: `http://localhost:3000/tweets/${$(this).data('id')}.json`,
+                    data: {"_method":"delete"},
+                    success: function(data) {
+                    alert("success");
+                    },
+                    error: function(error) {
+                    alert("error:" + error.status);
+                    }
+                })
+            })
+        // }
+
+
+    </script>
+
+</body>
+
+</html>
