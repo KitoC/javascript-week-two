@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div id='app'>
+        <h1>{{ message }}</h1>
+        <!-- V-bind binds the html elements to vue data so that you can change it dynamically within the vue framework -->
+
+        <h2 v-bind:title='popup' v-bind:style='h2Style'>Hover over this!</h2>
+        <!-- <h2 title='foo'!>Hover over this!</h2> -->
+
+        <!-- If statement if you change seen to true then it is visible and false it isn't.-->
+        <span v-if="seen">Now you see me 1!</span>
+
+        <!-- If statement. If num (in data) > 5 then is visible... -->
+        <span v-if="gtFive()">Now you see me 2!</span>
+
+        <ol>
+            <!-- Loops through the elemt "todos" and displays them as li items. Only put v-for on the element you want to repeat. -->
+            <li v-for="todo in todos">
+                <span  v-bind:style="tack">{{ todo.text }}</span></li>
+        </ol>
+        <button v-on:click="reverseMessage()">Reverse Message!</button>
+        <!-- Dynamically updates the "message" element dynamically. -->
+        <input v-model="message">
+        
+    </div>
+
+    <script>
+        const app = new Vue({
+            // targets the selector (id #) [el: short for element]
+            el: '#app',
+            // outputs the comment targeting the "{{ message }}". Data is essentially the model.
+            data: {
+                message: 'Hello Vue!',
+                popup: 'This is a popup message!',
+                h2Style: 'color: red',
+                seen: true,
+                num: 0,
+                done: false,
+                tack: '',
+                // Array setup for looping through.
+                todos: [
+                    { text: 'Learn Javascript.' },
+                    { text: 'Learn Vue.' },
+                    { text: 'Build something.' },
+                    { text: 'Profit...' },
+                ]
+            },
+            // Methods are where you can create functions for your vue object.
+            methods: {
+                gtFive: function () {
+                    return this.num > 5
+                },
+                done_fun: function(){
+                    this.tack = "color: red;"
+                },
+                reverseMessage: function(){
+                    this.message = this.message.split('').reverse().join('')
+                }
+            }
+        })
+    </script>
+
+</body>
+
+</html>

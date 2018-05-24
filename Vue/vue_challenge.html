@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Profile</title>
+</head>
+
+<body>
+
+    <div id="application">
+        <img v-if="imageb" v-bind:src="image" height="150" width="150">
+        <h2 v-bind="fullname">{{fullname}}</h2>
+        <p v-bind="city">City: {{city}}</p>
+        <p v-bind="phone">Phone: {{phone}}</p>
+        <p v-bind="email">email: {{email}}</p>
+        <ul>
+            <li v-for="hob in hobbies">{{ hob.hobby }}<button v-on:click="deleteHobby(hob)">Delete</button></li>
+            <li>{{entry}}</li>
+        </ul>
+        <!-- <button v-on:click="addHobby">Add hobby!</button> -->
+        <form v-on:submit="addHobby">
+            <input v-model="entry">
+            <button>Add a new hobby!</button>
+        </form>
+
+        <button v-on:click="randomise_user()">Random User</button>
+
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="app.js"></script>
+
+</body>
+
+</html>
