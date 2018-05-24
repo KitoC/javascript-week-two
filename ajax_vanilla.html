@@ -8,6 +8,17 @@
     <title>Document</title>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
+        <style>
+            .stud{
+                transition: 2s;
+            }
+        .stud:hover{
+
+            transform: translateX(500px)
+
+        }
+        
+        </style>
 
 </head>
 
@@ -15,22 +26,22 @@
     <script>
         // Jquery version
 
-        $.ajax({
-            type: 'POST',
-            url: 'http://localhost:3000/students.json',
-            data: { student: {name: 'Jim', location: 'USS Enterprise'} },
-            success: function (student, textStatus, xhr) {
-                // console.log(xhr)
-                if (xhr.status === 201) {
-                        $('body').append(`<h2>Created: ${student.name} (ID: ${student.id})</h2>`)
-                } else { // Reached server, but failed
-                    console.log(`Reached server, but error ${xhr.status} occurred .`)
-                }
-            },
-            error: function () {
-                console.log('Could not connect to server!')
-            }
-        })
+        // $.ajax({
+        //     type: 'POST',
+        //     url: 'http://localhost:3000/students.json',
+        //     data: { student: {name: 'Jim', location: 'USS Enterprise'} },
+        //     success: function (student, textStatus, xhr) {
+        //         // console.log(xhr)
+        //         if (xhr.status === 201) {
+        //                 $('body').append(`<h2>Created: ${student.name} (ID: ${student.id})</h2><button onclick="deleteStudent(${student.id})">delete student</button>`)
+        //         } else { // Reached server, but failed
+        //             console.log(`Reached server, but error ${xhr.status} occurred .`)
+        //         }
+        //     },
+        //     error: function () {
+        //         console.log('Could not connect to server!')
+        //     }
+        // })
 
         $.ajax({
             type: 'GET',
@@ -39,7 +50,7 @@
                 // console.log(xhr)
                 if (xhr.status === 200) {
                     result.forEach(function (student) {
-                        $('body').append(`<h3>${student.name} is in ${student.location}</h3>`)
+                        $('body').append(`<div id="student${student.id}" class="stud"><h3>${student.name} is in ${student.location}</h3><button onclick="deleteStudent(${student.id})">delete student</button></div>`)
                     })
                 } else { // Reached server, but failed
                     console.log(`Reached server, but error ${xhr.status} occurred .`)
@@ -49,6 +60,16 @@
                 console.log('Could not connect to server!')
             }
         })
+
+        function deleteStudent(stud_id){
+            $(`#student${stud_id}`).fadeOut(3000, function(){
+                $(this).remove()
+            })
+            $.post(`http://localhost:3000/students/${stud_id}.json`, {_method: 'DELETE'}).then(function(){
+                console.log(`student ${stud_id} deleted`)
+            })
+            
+        }
 
 
         // Vanilla version
